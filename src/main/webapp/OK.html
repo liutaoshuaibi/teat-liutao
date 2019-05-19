@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>登陆成功</title>
+    <script src="https://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <!--导入jquery-->
+    <script src="js/jquery-3.3.1.js"></script>
+</head>
+<body>
+    <script>
+        $(function () {
+            $.get("user/findOne",{},function (data) {
+                $("#span_username").html("欢迎回来,"+data.name);
+            })
+        })
+    </script>
+    <h1 id="span_username"></h1>
+    <a href="javascript:location.href='user/exist';" class="btn btn-default" role="button">退出</a>
+</body>
+</html>
