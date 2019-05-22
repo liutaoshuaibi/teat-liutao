@@ -15,18 +15,18 @@ public class UserServiceImpl implements UserService {
      * 注册用户
      */
     public boolean regist(User user) {
-        User u = dao.regist(user.getUsername());
-        if (u != null){
+        User u = dao.regist(user.getUsername());//直接获取用户名
+        if (u != null){//和数据库进行交互
             //存在用户
             return true;
         }
         user.setStatus("N");
         user.setCode(UuidUtil.getUuid());
-        user.setRoot("N");
+        user.setRoot("N");//用户名不存在进行设置
         dao.save(user);
 
         String context = "<a href='http://localhost/graduate/user/active?code="+user.getCode()+"'>点击激活【足球世界】</a>";
-        MailUtils.sendMail(user.getEmail(),context,"激活账号");
+        MailUtils.sendMail(user.getEmail(),context,"激活账号");//给邮箱添加内容  跳转页面  激活
         return false;
     }
 

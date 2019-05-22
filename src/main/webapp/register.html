@@ -87,14 +87,14 @@
 							if (data.flag){
 								location.href="register_ok.html";
 							} else {
-								$("#error").html(data.errorMsg);
+								$("#error").html(data.errorMsg);//提示注册失败
 							}
 						})
 					}
 					return false;
-				});
+				});//判断的实体方法  与后台进行交互
 
-				$("#username").blur(checkUsername);
+				$("#username").blur(checkUsername);//blur 当我们鼠标离开会调用检测我们输入的是否合法
 				$("#password").blur(checkPassword);
 				$("#email").blur(checkEmail);
 				$("#name").blur(checkName);

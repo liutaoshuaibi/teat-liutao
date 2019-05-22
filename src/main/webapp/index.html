@@ -30,7 +30,7 @@
                     }
                 })
             });
-        })
+        })//点击提交  和后台进行交互  成功跳转到OK.html  失败打印错误信息
     </script>
 
 </head>
@@ -65,7 +65,7 @@
                         //图片点击事件
                         function changeCheckCode(img) {
                             img.src = "checkCode?" + new Date().getTime();
-                        }
+                        }//刷新验证码
                     </script>
                 </div>
                 <div class="submit_btn">

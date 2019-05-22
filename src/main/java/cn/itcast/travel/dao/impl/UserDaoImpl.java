@@ -16,7 +16,7 @@ public class UserDaoImpl implements UserDao {
      */
     public User regist(String username) {
         String sql = "select * from user where username = ?";
-        User user = null;
+        User user = null;//用户名相同返回null
         try {
             user = template.queryForObject(sql, new BeanPropertyRowMapper<User>(User.class), username);
         } catch (DataAccessException e) {
@@ -31,7 +31,7 @@ public class UserDaoImpl implements UserDao {
     public void save(User user) {
         String sql = "insert into user(username,password,name,birthday,sex,telephone,email,status,code,root) values(?,?,?,?,?,?,?,?,?,?)";
         template.update(sql, user.getUsername(), user.getPassword(), user.getName(), user.getBirthday(), user.getSex(), user.getTelephone(), user.getEmail(), user.getStatus(), user.getCode(), user.getRoot());
-    }
+    }//往数据库里面存储
 
     @Override
     //激活码

@@ -22,26 +22,26 @@ public class UserServlet extends BaseServlet {
         String check = request.getParameter("check");
         HttpSession session = request.getSession();
         String CHECKCODE_SERVER = (String)session.getAttribute("CHECKCODE_SERVER");
-        session.removeAttribute("CHECKCODE_SERVER");
+        session.removeAttribute("CHECKCODE_SERVER");//获取验证码信息
 
         ResultInfo info = new ResultInfo();
-        response.setContentType("application/json;charset=utf-8");
-        if (CHECKCODE_SERVER == null || !CHECKCODE_SERVER.equalsIgnoreCase(check)){
+        response.setContentType("application/json;charset=utf-8");//结果信息，封装结果对象
+        if (CHECKCODE_SERVER == null || !CHECKCODE_SERVER.equalsIgnoreCase(check)){//没验证码  忽略大小写不正确
             info.setFlag(false);
             info.setErrorMsg("验证码错误");
             ObjectMapper mapper = new ObjectMapper();
             String json = mapper.writeValueAsString(info);
-            response.getWriter().write(json);
+            response.getWriter().write(json);//给页面回写信息
             return;
         }
 
         Map<String,String[]> map = request.getParameterMap();
         User user = new User();
         try {
-            BeanUtils.populate(user,map);
+            BeanUtils.populate(user,map);//把前端传入的对象封装成uer对象
         } catch (Exception e) {
             e.printStackTrace();
-        }
+        }//调用个工具类  和后台进行交互
 
         boolean flag = service.regist(user);
 
@@ -97,17 +97,7 @@ public class UserServlet extends BaseServlet {
             info.setErrorMsg("用户未激活");
         }
         if(u != null && "Y".equals(u.getStatus())){
-            String auto = request.getParameter("auto");
-            if ("auto".equals(auto)){
-                String username = u.getUsername();
-                String password = u.getPassword();
-                Cookie cook_user = new Cookie("username",username);
-                Cookie cook_pass = new Cookie("password",password);
-                cook_user.setMaxAge(24*60*60);
-                cook_pass.setMaxAge(24*60*60);
-                response.addCookie(cook_user);
-                response.addCookie(cook_pass);
-            }
+
             request.getSession().setAttribute("user",u);//登录成功标记
             info.setFlag(true);
         }
@@ -125,16 +115,8 @@ public class UserServlet extends BaseServlet {
 
     //用户退出
     public void exist(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
-        request.getSession().removeAttribute("user");
-
-        Cookie cook_user = new Cookie("username",null);
-        Cookie cook_pass = new Cookie("password",null);
-        cook_user.setMaxAge(0);
-        cook_pass.setMaxAge(0);
-        response.addCookie(cook_user);
-        response.addCookie(cook_pass);
-
-        response.sendRedirect(request.getContextPath()+"/index.html");
+        request.getSession().removeAttribute("user");//从用户sessio域里面删除了用户对象
+        response.sendRedirect(request.getContextPath()+"/index.html");//跳转到index页面
     }
 
     //激活
